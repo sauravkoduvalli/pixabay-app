@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pixabay_machine_test/models/album_photo_model.dart';
-import 'package:pixabay_machine_test/screens/detailed_screen.dart';
 import 'package:pixabay_machine_test/screens/search_module.dart';
+import 'package:pixabay_machine_test/widgets/image_view_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,11 +24,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Pixabay Images'),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        title: Image.asset(
+          'assets/images/logo.png',
+          width: 120.0,
+          height: 100.0,
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -39,22 +49,22 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // search bar widget
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: TextField(
               controller: searchController,
               textInputAction: TextInputAction.search,
               keyboardType: TextInputType.text,
-              onChanged: (value) {
-                setState(() {});
-              },
               onSubmitted: (value) => searchModule.search(value),
               decoration: InputDecoration(
                 hintText: "Search here...",
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.black12),
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                // if user type a search item,
+                // then shows clear icon to remove the text.
                 prefixIcon: searchController.text.isEmpty
                     ? null
                     : IconButton(
@@ -73,52 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-
-          // used stream builder to get image data into this widget.
-          // As its is expanded, when more data streams, it provide a lazy-loading view.
-          Expanded(
-            child: StreamBuilder<AlbumPhoto>(
-                stream: searchModule.stream,
-                builder:
-                    (BuildContext context, AsyncSnapshot<AlbumPhoto> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.photos.isEmpty) {
-                      return const Center(
-                        child: Text("No data found!"),
-                      );
-                    }
-                    return GridView.count(
-                      mainAxisSpacing: 5.0,
-                      crossAxisSpacing: 5.0,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      crossAxisCount: 2,
-                      children: snapshot.data!.photos.map((Photo photo) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) {
-                              return DetailScreen(
-                                imageData: photo.url,
-                              );
-                            }));
-                          },
-                          child: GridTile(
-                            child: Image.network(
-                              photo.url,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text("${snapshot.error}"));
-                  }
-                  // By default, show a loading spinner.
-                  return const Center(child: CircularProgressIndicator());
-                }),
-          ),
+          // Extracted to widgets folder
+          ImageViewWidget(searchModule: searchModule),
         ],
       ),
     );

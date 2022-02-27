@@ -20,6 +20,7 @@ class AlbumPhoto {
 
 class Photo {
   final int id;
+  // ignore: prefer_typing_uninitialized_variables
   final url;
   Photo({
     required this.id,

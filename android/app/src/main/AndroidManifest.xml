@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pixabay_machine_test">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="pixabay_machine_test"
+        android:label="Pixabay_Machine_Test"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
