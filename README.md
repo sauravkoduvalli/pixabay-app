@@ -1,16 +1,17 @@
-# pixabay_machine_test
+# Pixabay App
 
-A new Flutter project.
+A simple Pixabay image viewer mobile application working in both android and iOS.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Search Image
+- View image in full screen
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies Used
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Frontend: Flutter
+- API - https://pixabay.com/api/?key=${YOUR-API-KEY}
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshot
+
+<img src="readme/pixabay_app_india.png" width=300>
